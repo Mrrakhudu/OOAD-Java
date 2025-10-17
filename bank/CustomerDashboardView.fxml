@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="holiday.bank.CustomerDashboardController" style="-fx-background-color: #f0f0f0; -fx-padding: 40;">
+    <Label text="== CUSTOMER DASHBOARD ==" style="-fx-font-family: 'Courier New'; -fx-font-weight: bold; -fx-font-size: 16;"/>
+
+    <VBox spacing="10" alignment="CENTER" style="-fx-border-color: #ccc; -fx-border-width: 2; -fx-padding: 20; -fx-background-color: white;">
+        <Label fx:id="welcomeLabel" style="-fx-font-family: 'Courier New'; -fx-font-size: 14;"/>
+
+        <VBox spacing="5" style="-fx-padding: 20 0 0 0;">
+            <Label text="1. View All Accounts" style="-fx-font-family: 'Courier New'; -fx-font-size: 12;"/>
+            <Label text="2. Deposit Funds" style="-fx-font-family: 'Courier New'; -fx-font-size: 12;"/>
+            <Label text="3. Withdraw Funds" style="-fx-font-family: 'Courier New'; -fx-font-size: 12;"/>
+            <Label text="4. View Account Details" style="-fx-font-family: 'Courier New'; -fx-font-size: 12;"/>
+            <Label text="5. View Transaction History" style="-fx-font-family: 'Courier New'; -fx-font-size: 12;"/>
+            <Label text="6. View Customer Information" style="-fx-font-family: 'Courier New'; -fx-font-size: 12;"/>
+            <Label text="7. Logout" style="-fx-font-family: 'Courier New'; -fx-font-size: 12;"/>
+        </VBox>
+
+        <HBox spacing="10" style="-fx-padding: 20 0 0 0;">
+            <Label text="Choose an option (1-7):" style="-fx-font-family: 'Courier New'; -fx-font-size: 12;"/>
+            <TextField fx:id="menuChoiceField" style="-fx-font-family: 'Courier New'; -fx-pref-width: 50;"/>
+            <Button text="Submit" onAction="#handleMenuChoice" style="-fx-font-family: 'Courier New'; -fx-background-color: #2196F3; -fx-text-fill: white;"/>
+        </HBox>
+    </VBox>
+
+    <!-- Dynamic Content Area -->
+    <VBox fx:id="contentArea" style="-fx-border-color: #ccc; -fx-border-width: 1; -fx-padding: 20; -fx-background-color: white; -fx-pref-width: 600;">
+        <!-- Content will be loaded dynamically based on menu choice -->
+    </VBox>
+
+    <Label fx:id="messageLabel" style="-fx-font-family: 'Courier New'; -fx-text-fill: red; -fx-font-size: 12;"/>
+</VBox>

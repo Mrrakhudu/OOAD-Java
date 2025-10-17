@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.FontWeight?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="holiday.bank.LoginController" style="-fx-background-color: #f0f0f0; -fx-padding: 40;">
+    <Label text="== WELCOME TO BOTSWANA NATIONAL BANK ==" style="-fx-font-family: 'Courier New'; -fx-font-weight: bold; -fx-font-size: 16;"/>
+
+    <VBox spacing="15" alignment="CENTER" style="-fx-border-color: #ccc; -fx-border-width: 2; -fx-padding: 20; -fx-background-color: white;">
+        <Label text="1. Login" style="-fx-font-family: 'Courier New'; -fx-font-size: 14;"/>
+        <Label text="2. Exit" style="-fx-font-family: 'Courier New'; -fx-font-size: 14;"/>
+
+        <VBox spacing="10" style="-fx-padding: 20 0 0 0;">
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Choose an option (1-2):" style="-fx-font-family: 'Courier New'; -fx-font-size: 12;"/>
+                <TextField fx:id="menuChoiceField" style="-fx-font-family: 'Courier New'; -fx-pref-width: 50;"/>
+            </HBox>
+
+            <!-- Login Fields (Visible when option 1 is selected) -->
+            <VBox fx:id="loginFields" spacing="10" visible="false" style="-fx-padding: 10 0 0 0;">
+                <HBox spacing="10" alignment="CENTER">
+                    <Label text="Enter username:" style="-fx-font-family: 'Courier New'; -fx-font-size: 12;"/>
+                    <TextField fx:id="usernameField" style="-fx-font-family: 'Courier New'; -fx-pref-width: 150;"/>
+                </HBox>
+                <HBox spacing="10" alignment="CENTER">
+                    <Label text="Enter password:" style="-fx-font-family: 'Courier New'; -fx-font-size: 12;"/>
+                    <PasswordField fx:id="passwordField" style="-fx-font-family: 'Courier New'; -fx-pref-width: 150;"/>
+                </HBox>
+                <Button text="Submit Login" onAction="#handleLogin" style="-fx-font-family: 'Courier New'; -fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+            </VBox>
+
+            <!-- Exit Button (Visible when option 2 is selected) -->
+            <Button fx:id="exitButton" text="Confirm Exit" onAction="#handleExit" visible="false" style="-fx-font-family: 'Courier New'; -fx-background-color: #f44336; -fx-text-fill: white;"/>
+        </VBox>
+    </VBox>
+
+    <Label fx:id="messageLabel" style="-fx-font-family: 'Courier New'; -fx-text-fill: red; -fx-font-size: 12;"/>
+</VBox>
