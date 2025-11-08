@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="bank.finalsys.CustomerDashboardController"
+            style="-fx-background-color: #f8f9fa;">
+
+    <!-- Top Header -->
+    <top>
+        <VBox style="-fx-background-color: linear-gradient(to right, #2E8B57, #3CB371); -fx-padding: 20;">
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <Label text="👤" style="-fx-font-size: 24; -fx-background-color: white; -fx-background-radius: 20; -fx-padding: 10; -fx-min-width: 40; -fx-min-height: 40; -fx-alignment: center;"/>
+                <VBox>
+                    <Label fx:id="welcomeLabel" text="Welcome, Customer"
+                           style="-fx-text-fill: white; -fx-font-size: 20; -fx-font-weight: bold;"/>
+                    <Label text="Your Personal Banking Portal"
+                           style="-fx-text-fill: #e8f5e8; -fx-font-size: 12;"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Logout" onAction="#handleLogout"
+                        style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-border-color: white; -fx-border-radius: 15; -fx-background-radius: 15;"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Main Content -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background: transparent; -fx-border-color: transparent;">
+            <VBox spacing="25" style="-fx-padding: 30;">
+
+                <!-- Account Summary -->
+                <VBox style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);">
+                    <Label text="💰 Account Summary" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    <HBox spacing="30" style="-fx-padding: 20 0 0 0;">
+                        <VBox spacing="5">
+                            <Label text="Total Balance" style="-fx-text-fill: #7f8c8d; -fx-font-size: 14;"/>
+                            <Label text="BWP 12,450.00" style="-fx-text-fill: #27ae60; -fx-font-size: 28; -fx-font-weight: bold;"/>
+                        </VBox>
+                        <VBox spacing="5">
+                            <Label text="Total Accounts" style="-fx-text-fill: #7f8c8d; -fx-font-size: 14;"/>
+                            <Label text="3" style="-fx-text-fill: #3498db; -fx-font-size: 28; -fx-font-weight: bold;"/>
+                        </VBox>
+                        <VBox spacing="5">
+                            <Label text="This Month" style="-fx-text-fill: #7f8c8d; -fx-font-size: 14;"/>
+                            <Label text="+BWP 450.00" style="-fx-text-fill: #e74c3c; -fx-font-size: 28; -fx-font-weight: bold;"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <!-- Quick Actions -->
+                <VBox spacing="15">
+                    <Label text="🚀 Quick Actions" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    <HBox spacing="15">
+                        <Button text="📥 Deposit" onAction="#handleDeposit"
+                                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-pref-width: 120; -fx-pref-height: 60; -fx-font-size: 14;"/>
+                        <Button text="📤 Withdraw" onAction="#handleWithdraw"
+                                style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-pref-width: 120; -fx-pref-height: 60; -fx-font-size: 14;"/>
+                        <Button text="🔄 Transfer"
+                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-pref-width: 120; -fx-pref-height: 60; -fx-font-size: 14;"/>
+                        <Button text="📊 Statements"
+                                style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-pref-width: 120; -fx-pref-height: 60; -fx-font-size: 14;"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Accounts Grid -->
+                <VBox spacing="15">
+                    <Label text="🏦 My Accounts" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    <GridPane hgap="15" vgap="15">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="33"/>
+                            <ColumnConstraints percentWidth="33"/>
+                            <ColumnConstraints percentWidth="33"/>
+                        </columnConstraints>
+
+                        <!-- Account Card 1 -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);"
+                              GridPane.columnIndex="0">
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label text="💳" style="-fx-font-size: 20;"/>
+                                <VBox>
+                                    <Label text="Savings Account" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                                    <Label text="ACC-7890-1234" style="-fx-text-fill: #7f8c8d; -fx-font-size: 11;"/>
+                                </VBox>
+                            </HBox>
+                            <Label text="BWP 8,250.00" style="-fx-text-fill: #27ae60; -fx-font-size: 20; -fx-font-weight: bold; -fx-padding: 10 0;"/>
+                            <Button text="View Details" onAction="#handleViewAccount1"
+                                    style="-fx-background-color: #ecf0f1; -fx-text-fill: #2c3e50; -fx-background-radius: 8;"/>
+                        </VBox>
+
+                        <!-- Account Card 2 -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);"
+                              GridPane.columnIndex="1">
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label text="📈" style="-fx-font-size: 20;"/>
+                                <VBox>
+                                    <Label text="Investment Account" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                                    <Label text="ACC-7890-5678" style="-fx-text-fill: #7f8c8d; -fx-font-size: 11;"/>
+                                </VBox>
+                            </HBox>
+                            <Label text="BWP 3,500.00" style="-fx-text-fill: #e67e22; -fx-font-size: 20; -fx-font-weight: bold; -fx-padding: 10 0;"/>
+                            <Button text="View Details" onAction="#handleViewAccount2"
+                                    style="-fx-background-color: #ecf0f1; -fx-text-fill: #2c3e50; -fx-background-radius: 8;"/>
+                        </VBox>
+
+                        <!-- Account Card 3 -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);"
+                              GridPane.columnIndex="2">
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label text="🏢" style="-fx-font-size: 20;"/>
+                                <VBox>
+                                    <Label text="Cheque Account" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                                    <Label text="ACC-7890-9012" style="-fx-text-fill: #7f8c8d; -fx-font-size: 11;"/>
+                                </VBox>
+                            </HBox>
+                            <Label text="BWP 700.00" style="-fx-text-fill: #3498db; -fx-font-size: 20; -fx-font-weight: bold; -fx-padding: 10 0;"/>
+                            <Button text="View Details" onAction="#handleViewAccount3"
+                                    style="-fx-background-color: #ecf0f1; -fx-text-fill: #2c3e50; -fx-background-radius: 8;"/>
+                        </VBox>
+                    </GridPane>
+                </VBox>
+
+                <!-- Recent Transactions -->
+                <VBox style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);">
+                    <HBox alignment="CENTER_LEFT">
+                        <Label text="📋 Recent Transactions" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="View All" style="-fx-text-fill: #3498db; -fx-background-color: transparent; -fx-border-color: transparent;"/>
+                    </HBox>
+                    <VBox spacing="10" style="-fx-padding: 15 0 0 0;">
+                        <!-- Sample transactions would go here -->
+                        <Label text="No recent transactions" style="-fx-text-fill: #7f8c8d; -fx-font-style: italic; -fx-padding: 20; -fx-alignment: center;"/>
+                    </VBox>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

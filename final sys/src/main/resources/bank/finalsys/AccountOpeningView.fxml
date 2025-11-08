@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bank.finalsys.AccountOpeningController" spacing="15">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <Label text="OPEN NEW ACCOUNT" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #2E8B57;">
+        <font>
+            <Font name="System Bold" size="18.0" />
+        </font>
+    </Label>
+
+    <!-- Selected Customer Display -->
+    <Label fx:id="selectedCustomerLabel" style="-fx-font-weight: bold; -fx-font-size: 14;" />
+
+    <Separator />
+
+    <VBox spacing="15">
+        <!-- Customer Type Selection -->
+        <VBox spacing="8">
+            <Label text="Customer Type:" style="-fx-font-weight: bold; -fx-font-size: 14;" />
+            <HBox spacing="20">
+                <RadioButton fx:id="individualRadio" text="Individual" selected="true" />
+                <RadioButton fx:id="businessRadio" text="Business" />
+            </HBox>
+        </VBox>
+
+        <!-- Account Type Selection -->
+        <VBox spacing="8">
+            <Label text="Account Type:" style="-fx-font-weight: bold; -fx-font-size: 14;" />
+            <ComboBox fx:id="accountTypeComboBox" prefWidth="200" />
+        </VBox>
+
+        <!-- Initial Deposit -->
+        <VBox spacing="8">
+            <Label text="Initial Deposit (BWP):" style="-fx-font-weight: bold; -fx-font-size: 14;" />
+            <TextField fx:id="initialDepositField" promptText="Enter amount" prefWidth="200" />
+            <Label fx:id="minDepositLabel" style="-fx-font-size: 12;" />
+        </VBox>
+
+        <!-- Employer Information (for Individual Cheque Accounts) -->
+        <VBox fx:id="employerInfoSection" spacing="8" visible="false" managed="false">
+            <Label text="Employer Information (Required for Cheque Accounts):" style="-fx-font-weight: bold; -fx-font-size: 14;" />
+            <TextArea fx:id="employerInfoTextArea" promptText="Enter employer name, address, and contact information"
+                      prefRowCount="3" prefWidth="400" />
+        </VBox>
+
+        <!-- Business Information (for Business Customers) -->
+        <VBox fx:id="businessInfoSection" spacing="8" visible="false" managed="false">
+            <Label text="Business Information:" style="-fx-font-weight: bold; -fx-font-size: 14;" />
+            <TextField fx:id="businessRegistrationField" promptText="Business Registration Number" prefWidth="300" />
+            <TextField fx:id="businessAddressField" promptText="Business Address" prefWidth="300" />
+            <TextField fx:id="contactPersonField" promptText="Contact Person (Optional)" prefWidth="300" />
+        </VBox>
+    </VBox>
+
+    <!-- Action Buttons -->
+    <HBox spacing="15">
+        <Button text="Open Account" onAction="#handleSubmit"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 120;" />
+        <Button text="Clear Form" onAction="#handleClear"
+                style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-pref-width: 100;" />
+        <Button text="Done" onAction="#handleDone"
+                style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 80;" />
+    </HBox>
+
+    <!-- Message Label -->
+    <Label fx:id="messageLabel" style="-fx-font-weight: bold; -fx-wrap-text: true;"
+           prefWidth="500" prefHeight="100" />
+</VBox>

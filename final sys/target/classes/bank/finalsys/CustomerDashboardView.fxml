@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bank.finalsys.CustomerDashboardController" spacing="15">
+    <padding>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+    </padding>
+
+    <Label fx:id="welcomeLabel" text="Welcome, Customer" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #2E8B57;" />
+
+    <VBox spacing="10">
+        <Label text="CUSTOMER DASHBOARD" style="-fx-font-size: 16; -fx-font-weight: bold;" />
+        <Label text="1. View All Accounts" />
+        <Label text="2. Deposit Funds" />
+        <Label text="3. Withdraw Funds" />
+        <Label text="4. View Account Details" />
+        <Label text="5. Transaction History" />
+        <Label text="6. View My Information" />
+        <Label text="7. Logout" />
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Enter your choice (1-7):" />
+            <TextField fx:id="menuChoiceField" maxWidth="50" promptText="Enter number" />
+            <Button fx:id="proceedButton" text="Proceed" onAction="#handleProceed" disable="true"
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" />
+        </HBox>
+    </VBox>
+
+    <Label fx:id="messageLabel" style="-fx-text-fill: red; -fx-font-weight: bold;" />
+
+    <VBox fx:id="contentArea" spacing="10" VBox.vgrow="ALWAYS" />
+</VBox>
