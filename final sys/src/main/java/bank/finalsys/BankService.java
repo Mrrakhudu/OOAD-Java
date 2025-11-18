@@ -182,10 +182,16 @@ public class BankService {
 
     private void loadAccounts() {
         try (Scanner fileScanner = new Scanner(new File(ACCOUNTS_FILE))) {
+            System.out.println("=== LOADING ACCOUNTS ===");
+            int loadedCount = 0;
+            int errorCount = 0;
+
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine().trim();
                 if (!line.isEmpty()) {
                     String[] parts = line.split("\\|");
+                    System.out.println("Loading account data: " + line);
+
                     if (parts.length >= 5) {
                         String type = parts[0];
                         String accNumber = parts[1];
@@ -196,33 +202,60 @@ public class BankService {
                         BankCustomer customer = findCustomerById(customerId);
                         if (customer != null) {
                             Account account = createAccountFromData(type, accNumber, balance, branch, customer, parts);
+
                             if (account != null) {
                                 accounts.add(account);
                                 customer.addAccount(account);
+                                loadedCount++;
+                                System.out.println("✓ Successfully loaded account: " + accNumber);
+                            } else {
+                                errorCount++;
+                                System.out.println("✗ Failed to create account: " + accNumber);
                             }
+                        } else {
+                            errorCount++;
+                            System.out.println("✗ Customer not found for account: " + customerId);
                         }
+                    } else {
+                        errorCount++;
+                        System.out.println("✗ Invalid account data (less than 5 parts): " + line);
                     }
                 }
             }
+            System.out.println("Loading completed: " + loadedCount + " accounts loaded, " + errorCount + " errors");
         } catch (FileNotFoundException e) {
-            // File doesn't exist yet
+            System.out.println("Accounts file not found, starting with empty accounts.");
         }
     }
 
     private Account createAccountFromData(String type, String accNumber, double balance,
                                           String branch, BankCustomer customer, String[] parts) {
+        System.out.println("Creating account from data - Type: " + type + ", Parts length: " + parts.length);
+
         switch (type) {
             case "SAVINGS":
+                System.out.println("Creating Savings Account: " + accNumber);
                 return new SavingsAccount(accNumber, balance, branch, customer);
             case "INVESTMENT":
+                System.out.println("Creating Investment Account: " + accNumber);
                 return new InvestmentAccount(accNumber, balance, branch, customer);
             case "CHEQUE":
                 if (parts.length >= 7) {
-                    return new ChequeAccount(accNumber, balance, branch, customer, parts[5], parts[6]);
+                    String employer = parts[5];
+                    String companyAddress = parts[6];
+                    System.out.println("Creating Cheque Account: " + accNumber + " | Employer: " + employer);
+                    return new ChequeAccount(accNumber, balance, branch, customer, employer, companyAddress);
+                } else {
+                    // FIX: Handle incomplete Cheque account data gracefully
+                    System.out.println("ERROR: Incomplete Cheque account data. Expected 7 parts, got " + parts.length);
+                    System.out.println("Data: " + String.join("|", parts));
+                    // Create a Cheque account with default values instead of returning null
+                    return new ChequeAccount(accNumber, balance, branch, customer, "Unknown Employer", "");
                 }
-                break;
+            default:
+                System.out.println("Unknown account type: " + type);
+                return null;
         }
-        return null;
     }
 
     private BankCustomer findCustomerById(String customerId) {
@@ -251,6 +284,7 @@ public class BankService {
 
     private void saveAccounts() {
         try (PrintWriter writer = new PrintWriter(new FileWriter(ACCOUNTS_FILE))) {
+            System.out.println("=== SAVING ACCOUNTS ===");
             for (Account account : accounts) {
                 String line = account.getAccountType() + "|" +
                         account.getAccountNumber() + "|" +
@@ -258,14 +292,21 @@ public class BankService {
                         account.getBranch() + "|" +
                         account.getCustomer().getCustomerId();
 
+                // ADD PROPER CHEQUE ACCOUNT SAVING
                 if (account instanceof ChequeAccount) {
                     ChequeAccount chequeAccount = (ChequeAccount) account;
                     line += "|" + chequeAccount.getEmployer() + "|" + chequeAccount.getCompanyAddress();
+                    System.out.println("Saving Cheque Account: " + line);
+                } else {
+                    System.out.println("Saving Account: " + line);
                 }
+
                 writer.println(line);
             }
+            System.out.println("Total accounts saved: " + accounts.size());
         } catch (IOException e) {
             System.out.println("Error saving accounts: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

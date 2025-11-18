@@ -1,1 +1,4 @@
 Refilwe1|refilwe123|CUSTOMER|CUST1001|Refilwe|Rakhudu|Refilwe@bank.com
+kilo1|kilo123|CUSTOMER|CUST1002|kilo|kilo|kilo@bank.com
+toto1|toto123|CUSTOMER|CUST1003|toto|toto|toto@bank.com
+test1|test123|CUSTOMER|CUST1004|Documentation|Test|test@bank.com

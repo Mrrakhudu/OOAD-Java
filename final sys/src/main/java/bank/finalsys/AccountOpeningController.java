@@ -28,8 +28,18 @@ public class AccountOpeningController {
     private static final double MIN_SAVINGS_DEPOSIT = 50.0;
     private static final double MIN_INVESTMENT_DEPOSIT = 500.0;
 
-    public AccountOpeningController() {
-        this.bankService = new BankService();
+    // REMOVE THIS CONSTRUCTOR:
+    // public AccountOpeningController() {
+    //     this.bankService = new BankService();
+    // }
+
+    // ADD THESE SETTER METHODS:
+    public void setBankService(BankService bankService) {
+        this.bankService = bankService;
+        // Update customer display if customer was already set
+        if (currentCustomerUsername != null) {
+            updateSelectedCustomerDisplay();
+        }
     }
 
     public void setCurrentCustomer(String username) {
@@ -118,7 +128,7 @@ public class AccountOpeningController {
     }
 
     private void updateSelectedCustomerDisplay() {
-        if (currentCustomerUsername != null && selectedCustomerLabel != null) {
+        if (currentCustomerUsername != null && selectedCustomerLabel != null && bankService != null) {
             BankCustomer customer = bankService.findCustomerByUsername(currentCustomerUsername);
             if (customer != null) {
                 selectedCustomerLabel.setText("Opening account for: " + customer.getFullName() + " (" + customer.getCustomerId() + ")");
@@ -133,6 +143,13 @@ public class AccountOpeningController {
     @FXML
     private void handleSubmit() {
         messageLabel.setText("");
+
+        // Check if bankService is available
+        if (bankService == null) {
+            messageLabel.setStyle("-fx-text-fill: red;");
+            messageLabel.setText("Error: System not properly initialized. Please close and try again.");
+            return;
+        }
 
         // Validate that a customer is selected
         if (currentCustomerUsername == null) {
@@ -196,6 +213,7 @@ public class AccountOpeningController {
         } catch (Exception e) {
             messageLabel.setStyle("-fx-text-fill: red;");
             messageLabel.setText("Error: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

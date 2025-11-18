@@ -217,13 +217,40 @@ public class CustomerDashboardController {
                     // Extract account number from combo box (format: "ACC1001 - SAVINGS (BWP 1000.00)")
                     String accountNumber = accountComboBox.getValue().split(" - ")[0];
 
+                    // Find the actual account object from currentUser
+                    Account selectedAccount = findAccountByNumber(accountNumber);
+                    if (selectedAccount == null) {
+                        messageLabel.setText("Error: Account not found");
+                        messageLabel.setStyle("-fx-text-fill: red;");
+                        return;
+                    }
+
+                    // Perform the deposit on the actual account object
+                    selectedAccount.deposit(amount);
+
+                    // Also update through bank service if needed for transaction recording
                     bankService.deposit(accountNumber, amount);
 
+                    // Update the combo box to reflect new balance
+                    accountComboBox.getItems().clear();
+                    currentUser.getAccounts().forEach(account -> {
+                        accountComboBox.getItems().add(account.getAccountNumber() + " - " + account.getAccountType() +
+                                " (BWP " + String.format("%.2f", account.getBalance()) + ")");
+                    });
+
+                    // Select the same account again
+                    for (String item : accountComboBox.getItems()) {
+                        if (item.startsWith(accountNumber)) {
+                            accountComboBox.setValue(item);
+                            break;
+                        }
+                    }
+
                     messageLabel.setText("✓ Deposit successful!\nAmount: BWP " + String.format("%.2f", amount) +
-                            "\nNew balance will be updated.");
+                            "\nNew Balance: BWP " + String.format("%.2f", selectedAccount.getBalance()));
                     messageLabel.setStyle("-fx-text-fill: green;");
 
-                    // Clear fields
+                    // Clear amount field but keep account selected
                     amountField.clear();
 
                 } catch (NumberFormatException ex) {
@@ -331,13 +358,50 @@ public class CustomerDashboardController {
                     // Extract account number from combo box
                     String accountNumber = accountComboBox.getValue().split(" - ")[0];
 
+                    // Find the actual account object from currentUser
+                    Account selectedAccount = findAccountByNumber(accountNumber);
+                    if (selectedAccount == null) {
+                        messageLabel.setText("Error: Account not found");
+                        messageLabel.setStyle("-fx-text-fill: red;");
+                        return;
+                    }
+
+                    // Check if sufficient funds
+                    if (selectedAccount.getBalance() < amount) {
+                        messageLabel.setText("Error: Insufficient funds\nAvailable: BWP " +
+                                String.format("%.2f", selectedAccount.getBalance()));
+                        messageLabel.setStyle("-fx-text-fill: red;");
+                        return;
+                    }
+
+                    // Perform the withdrawal on the actual account object
+                    selectedAccount.withdraw(amount);
+
+                    // Also update through bank service if needed for transaction recording
                     bankService.withdraw(accountNumber, amount);
 
+                    // Update the combo box to reflect new balance
+                    accountComboBox.getItems().clear();
+                    currentUser.getAccounts().forEach(account -> {
+                        if (!(account instanceof SavingsAccount)) {
+                            accountComboBox.getItems().add(account.getAccountNumber() + " - " + account.getAccountType() +
+                                    " (BWP " + String.format("%.2f", account.getBalance()) + ")");
+                        }
+                    });
+
+                    // Select the same account again
+                    for (String item : accountComboBox.getItems()) {
+                        if (item.startsWith(accountNumber)) {
+                            accountComboBox.setValue(item);
+                            break;
+                        }
+                    }
+
                     messageLabel.setText("✓ Withdrawal successful!\nAmount: BWP " + String.format("%.2f", amount) +
-                            "\nNew balance will be updated.");
+                            "\nNew Balance: BWP " + String.format("%.2f", selectedAccount.getBalance()));
                     messageLabel.setStyle("-fx-text-fill: green;");
 
-                    // Clear fields
+                    // Clear amount field but keep account selected
                     amountField.clear();
 
                 } catch (NumberFormatException ex) {
@@ -409,7 +473,7 @@ public class CustomerDashboardController {
             accountComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
                 if (newVal != null) {
                     String accountNumber = newVal.split(" - ")[0];
-                    Account account = bankService.findAccount(accountNumber);
+                    Account account = findAccountByNumber(accountNumber);
                     if (account != null) {
                         detailsArea.setText(account.getAccountDetails());
                     }
@@ -575,6 +639,14 @@ public class CustomerDashboardController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // Helper method to find account by number from currentUser's accounts
+    private Account findAccountByNumber(String accountNumber) {
+        return currentUser.getAccounts().stream()
+                .filter(account -> account.getAccountNumber().equals(accountNumber))
+                .findFirst()
+                .orElse(null);
     }
 
     private HBox createFormField(String label, Control field) {

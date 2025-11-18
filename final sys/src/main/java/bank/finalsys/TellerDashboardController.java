@@ -288,35 +288,23 @@ public class TellerDashboardController {
 
     private void openAccountPopup(String customerUsername) {
         try {
-            // Create new stage for account opening
             Stage accountStage = new Stage();
             accountStage.setTitle("Open New Account - Botswana National Bank");
 
-            // Load the account opening FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AccountOpeningView.fxml"));
             Parent root = loader.load();
 
-            // Get the controller and set the customer
             AccountOpeningController controller = loader.getController();
             controller.setCurrentCustomer(customerUsername);
-            controller.setAccountStage(accountStage); // Pass the stage so it can be closed
+            controller.setAccountStage(accountStage);
+            controller.setBankService(this.bankService); // ← THIS IS THE KEY LINE
 
-            // Set up the scene
             Scene scene = new Scene(root, 600, 700);
             accountStage.setScene(scene);
-
-            // Make it modal (blocks interaction with main window)
             accountStage.initModality(Modality.WINDOW_MODAL);
             accountStage.initOwner(primaryStage);
 
-            // Center the popup relative to main window
-            accountStage.setX(primaryStage.getX() + 100);
-            accountStage.setY(primaryStage.getY() + 50);
-
-            // Show the popup and wait for it to close
             accountStage.showAndWait();
-
-            // Refresh any customer data if needed after account creation
             messageLabel.setText("Account opening completed.");
 
         } catch (Exception e) {
